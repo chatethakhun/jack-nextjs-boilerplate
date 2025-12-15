@@ -6,7 +6,7 @@ import { QueryClientProvider } from '@/components/query-client-provider';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/lib/auth';
 import { ApiClientProvider } from '@/components/api-client-provider';
-import { ToastContainer, ToastProvider } from 'the-omelet-ui/toast';
+import { ToastProvider } from '@/components/toast-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -41,10 +41,7 @@ export default async function RootLayout({
                 enableSystem
                 disableTransitionOnChange
               >
-                <ToastProvider>
-                  {children}
-                  <ToastContainer />
-                </ToastProvider>
+                <ToastProvider>{children}</ToastProvider>
               </ThemeProvider>
             </QueryClientProvider>
           </ApiClientProvider>
