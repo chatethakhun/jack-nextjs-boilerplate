@@ -7,24 +7,11 @@ import { Button } from '@/components/ui/button';
 
 import { TextInput } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-
-const formSchema = z.object({
-  name: z.string().min(2, {
-    message: 'Name must be at least 2 characters.',
-  }),
-  email: z.string().email({
-    message: 'Please enter a valid email address.',
-  }),
-  message: z.string().min(10, {
-    message: 'Message must be at least 10 characters.',
-  }),
-});
-
-type FormData = z.infer<typeof formSchema>;
+import { ContactFormData, contactSchema } from '@/schema/contact.schema';
 
 export function ContactForm() {
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
     defaultValues: {
       name: '',
       email: '',
@@ -32,7 +19,7 @@ export function ContactForm() {
     },
   });
 
-  function onSubmit(values: FormData) {
+  function onSubmit(values: ContactFormData) {
     // Handle form submission
     console.log(values);
   }
@@ -43,17 +30,38 @@ export function ContactForm() {
         <Controller
           control={form.control}
           name="name"
-          render={({ field }) => <TextInput {...field} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextInput
+              label="Name"
+              id="name"
+              {...field}
+              error={error?.message}
+            />
+          )}
         />
         <Controller
           control={form.control}
           name="email"
-          render={({ field }) => <TextInput {...field} />}
+          render={({ field, fieldState: { error } }) => (
+            <TextInput
+              label="Email"
+              id="email"
+              {...field}
+              error={error?.message}
+            />
+          )}
         />
         <Controller
           control={form.control}
           name="message"
-          render={({ field }) => <Textarea {...field} />}
+          render={({ field, fieldState: { error } }) => (
+            <Textarea
+              label="Message"
+              id="message"
+              {...field}
+              error={error?.message}
+            />
+          )}
         />
         <Button type="submit">Submit</Button>
       </form>
