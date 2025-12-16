@@ -27,7 +27,7 @@ describe('ThemeToggle', () => {
 
     const button = screen.getByRole('button');
     expect(button).toBeInTheDocument();
-    expect(screen.getByText('Toggle theme')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   test('toggles from light to dark', async () => {

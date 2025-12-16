@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
 import { useMemo } from 'react';
-
+import Light from 'omoo-icons/icons/Lightbulb01';
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme();
 
@@ -14,15 +14,13 @@ export function ThemeToggle() {
     return theme;
   }, [theme]);
 
-  console.log({ currentTheme });
-
   return (
-    <div>
-      <Button
-        onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
-      >
-        <span className="sr-only text-black dark:text-white">Toggle theme</span>
-      </Button>
-    </div>
+    <Button
+      variant="outline"
+      onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
+      isIcon
+    >
+      <Light />
+    </Button>
   );
 }
