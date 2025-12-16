@@ -66,7 +66,7 @@ describe('ApiClientProvider', () => {
   test('adds Authorization header when session has accessToken', () => {
     const mockSession = {
       user: { name: 'Test User', email: 'test@example.com' },
-      accessToken: 'test-token-123',
+      token: 'test-token-123',
       expires: '2024-12-31',
     };
 

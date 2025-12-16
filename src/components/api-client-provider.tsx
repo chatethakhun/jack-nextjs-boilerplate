@@ -11,8 +11,8 @@ export function ApiClientProvider({ children }: { children: React.ReactNode }) {
     const requestInterceptor = apiClient.interceptors.request.use(
       (config) => {
         // If the session has an access token, add it to the Authorization header
-        if (session?.accessToken) {
-          config.headers.Authorization = `Bearer ${session.accessToken}`;
+        if (session?.token) {
+          config.headers.Authorization = `Bearer ${session?.token}`;
         }
         return config;
       },
