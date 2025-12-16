@@ -30,6 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("credentials", credentials)
         // This is where you call your external API
         try {
           const { email, password } = credentials
@@ -69,6 +70,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   pages: {
-    signIn: '/signin',
+    signIn: '/auth/sign-in',
   },
 })

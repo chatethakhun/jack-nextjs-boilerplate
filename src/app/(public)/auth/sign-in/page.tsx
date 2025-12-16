@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
 import { SignInFormData, signInSchema } from '@/schema/sign-in.schema';
+import { signIn } from 'next-auth/react';
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,11 +23,7 @@ export default function SignInPage() {
     setIsLoading(true);
     try {
       console.log('Login data:', data);
-      // TODO: เรียก API login ของคุณที่นี่
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   body: JSON.stringify(data),
-      // })
+      await signIn('credentials', data);
 
       // ถ้าสำเร็จ redirect ไป dashboard
       // window.location.href = '/dashboard'
