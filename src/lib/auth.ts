@@ -30,20 +30,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("credentials", credentials)
+
         // This is where you call your external API
         try {
           const { email, password } = credentials
-          const apiResponse = await axios.post("/api/auth/login", { // Note: relative path due to rewrites
-            email,
+          const apiResponse = await axios.post<{ success: boolean, data: User }>(`${process.env.NEXT_PUBLIC_API_URL}/adminLogin`, { // Note: relative path due to rewrites
+            username: email,
             password,
           })
+
+          
 
           const user = apiResponse.data
 
           if (user) {
             // The user object returned here will be saved in the JWT
-            return user
+            return user.data
           }
         } catch (error) {
           console.error("Authorization Error:", error)

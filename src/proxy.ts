@@ -22,14 +22,13 @@ export default async function middleware(request: NextRequest) {
     session &&
     (pathnameWithoutLocale === SIGN_IN_URL || pathnameWithoutLocale === "/auth/sign-up")
   ) {
-    return NextResponse.redirect(new URL(`/apps`, request.url));
+    return NextResponse.redirect(new URL(`/dashboard`, request.url));
   }
 
   // Protected routes ต้อง login
   if (
     !session &&
-    (pathnameWithoutLocale.startsWith("/apps") ||
-      pathnameWithoutLocale.startsWith("/dashboard"))
+    pathnameWithoutLocale.startsWith("/dashboard")
   ) {
     return NextResponse.redirect(new URL(SIGN_IN_URL, request.url));
   }

@@ -3,7 +3,7 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+
 import { useState } from 'react';
 import { SignInFormData, signInSchema } from '@/schema/sign-in.schema';
 import { signIn } from 'next-auth/react';
@@ -22,8 +22,14 @@ export default function SignInPage() {
   const onSubmit = async (data: SignInFormData) => {
     setIsLoading(true);
     try {
-      console.log('Login data:', data);
-      await signIn('credentials', data);
+      console.log('Login data:', {
+        email: data.username,
+        password: data.password,
+      });
+      await signIn('credentials', {
+        email: data.username,
+        password: data.password,
+      });
 
       // ถ้าสำเร็จ redirect ไป dashboard
       // window.location.href = '/dashboard'
@@ -54,20 +60,19 @@ export default function SignInPage() {
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                อีเมล
+                Username
               </label>
               <input
-                {...register('email')}
-                type="email"
-                id="email"
+                {...register('username')}
+                id="username"
                 className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
+                  errors.username ? 'border-red-500' : 'border-gray-300'
                 } focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition`}
                 placeholder="your@email.com"
               />
-              {errors.email && (
+              {errors.username && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.email.message}
+                  {errors.username.message}
                 </p>
               )}
             </div>
