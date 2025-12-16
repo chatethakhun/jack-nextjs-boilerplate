@@ -1,7 +1,7 @@
 // src/lib/auth.ts
 import NextAuth, { type User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import axios from "axios"
+import { LoginCredentials, loginUser } from "./api/login.service"
 
 declare module "next-auth" {
   interface Session {
@@ -21,6 +21,8 @@ declare module "@auth/core/jwt" {
   }
 }
 
+
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     CredentialsProvider({
@@ -33,19 +35,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         // This is where you call your external API
         try {
-          const { email, password } = credentials
-          const apiResponse = await axios.post<{ success: boolean, data: User }>(`${process.env.NEXT_PUBLIC_API_URL}/adminLogin`, { // Note: relative path due to rewrites
-            username: email,
-            password,
-          })
-
+          const user = await loginUser(credentials as LoginCredentials)
           
-
-          const user = apiResponse.data
 
           if (user) {
             // The user object returned here will be saved in the JWT
-            return user.data
+            return user
           }
         } catch (error) {
           console.error("Authorization Error:", error)
