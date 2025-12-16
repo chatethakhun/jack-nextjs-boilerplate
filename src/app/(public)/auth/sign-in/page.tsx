@@ -1,45 +1,6 @@
-// app/login/page.tsx
-'use client';
-
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { useState } from 'react';
-import { SignInFormData, signInSchema } from '@/schema/sign-in.schema';
-import { signIn } from 'next-auth/react';
+import { UserForm } from '@/components/forms/user-form';
 
 export default function SignInPage() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
-  });
-
-  const onSubmit = async (data: SignInFormData) => {
-    setIsLoading(true);
-    try {
-      console.log('Login data:', {
-        email: data.username,
-        password: data.password,
-      });
-      await signIn('credentials', {
-        email: data.username,
-        password: data.password,
-      });
-
-      // ถ้าสำเร็จ redirect ไป dashboard
-      // window.location.href = '/dashboard'
-    } catch (error) {
-      console.error('Login error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100 px-4">
       <div className="w-full max-w-md">
@@ -53,63 +14,7 @@ export default function SignInPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Email Field */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Username
-              </label>
-              <input
-                {...register('username')}
-                id="username"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.username ? 'border-red-500' : 'border-gray-300'
-                } focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition`}
-                placeholder="your@email.com"
-              />
-              {errors.username && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.username.message}
-                </p>
-              )}
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                รหัสผ่าน
-              </label>
-              <input
-                {...register('password')}
-                type="password"
-                id="password"
-                className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.password ? 'border-red-500' : 'border-gray-300'
-                } focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition`}
-                placeholder="••••••••"
-              />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
-            </button>
-          </form>
+          <UserForm />
         </div>
       </div>
     </div>

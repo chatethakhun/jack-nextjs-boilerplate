@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 
-import { Button } from '@/components/ui/button.jsx';
+import { Button } from '@/components/ui/button';
 import { useMemo } from 'react';
 
 export function ThemeToggle() {
@@ -14,12 +14,15 @@ export function ThemeToggle() {
     return theme;
   }, [theme]);
 
+  console.log({ currentTheme });
+
   return (
-    <Button
-      variant="ghost"
-      onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
-    >
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <div>
+      <Button
+        onClick={() => setTheme(currentTheme === 'light' ? 'dark' : 'light')}
+      >
+        <span className="sr-only text-black dark:text-white">Toggle theme</span>
+      </Button>
+    </div>
   );
 }
