@@ -254,7 +254,7 @@ describe('ApiClientProvider', () => {
     vi.mocked(useSession).mockReturnValue({
       data: {
         user: { name: 'Test', email: 'test@example.com' },
-        accessToken: 'new-token',
+        token: 'new-token',
         expires: '2024-12-31',
       },
       status: 'authenticated',

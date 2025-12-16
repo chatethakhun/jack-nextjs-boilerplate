@@ -6,17 +6,17 @@ import { LoginCredentials, loginUser } from "./api/login.service"
 declare module "next-auth" {
   interface Session {
     user: User
-    accessToken?: string
+    token?: string
   }
 
   interface User {
-    accessToken?: string
+    token?: string
   }
 }
 
 declare module "@auth/core/jwt" {
   interface JWT {
-    accessToken?: string
+    token?: string
     user?: User
   }
 }
@@ -55,14 +55,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = user.accessToken // Assuming your API returns an access token
+        token.token = user.token // Assuming your API returns an access token
         token.user = user
       }
       return token
     },
     async session({ session, token }) {
       session.user = token.user as any
-      session.accessToken = token.accessToken as string
+      session.token = token.token as string
       return session
     },
   },
