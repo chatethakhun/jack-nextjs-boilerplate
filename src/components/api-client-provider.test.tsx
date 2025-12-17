@@ -94,7 +94,7 @@ describe('ApiClientProvider', () => {
     // Test the interceptor function
     const mockConfig = {
       url: '/api/test',
-      headers: {} as any,
+      headers: {},
     };
 
     const result = requestInterceptor(mockConfig);
