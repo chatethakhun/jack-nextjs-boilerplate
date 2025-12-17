@@ -1,6 +1,11 @@
 // date-utils.test.ts
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
-import { formatDate, formatRelativeTime, isValidDate } from '@/lib/date';
+import {
+  formatDate,
+  formatRelativeTime,
+  isValidDate,
+  formatDateUTC,
+} from '@/lib/date';
 
 describe('Date Utils', () => {
   // Fix time for consistent testing
@@ -460,6 +465,14 @@ describe('Date Utils', () => {
         expect(isValidDate('0000-00-00')).toBe(false);
         expect(isValidDate('9999-99-99')).toBe(false);
       });
+    });
+  });
+
+  describe('Format in UTC function', () => {
+    test('formats Date object with default format', () => {
+      const date = new Date('2024-01-15T10:00:00Z');
+      const result = formatDateUTC(date);
+      expect(result).toBe('January 15th, 2024');
     });
   });
 });
