@@ -1,35 +1,25 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
 
-import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
-
-
-const SIGN_IN_URL = '/auth/sign-in'
-
-
+const SIGN_IN_URL = '/auth/sign-in';
 
 export default async function middleware(request: NextRequest) {
-
   const pathname = request.nextUrl.pathname;
-  const pathnameWithoutLocale = pathname.replace(/^\/(en|th)/, "") || "/";
+  const pathnameWithoutLocale = pathname.replace(/^\/(en|th)/, '') || '/';
 
-  const session = await auth()
-  // ดึง locale จาก pathname หรือใช้ default
-
-  console.log({ session })
+  const session = await auth();
 
   // มี session แล้วเข้า login/signup → redirect ไป apps
   if (
     session &&
-    (pathnameWithoutLocale === SIGN_IN_URL || pathnameWithoutLocale === "/auth/sign-up")
+    (pathnameWithoutLocale === SIGN_IN_URL ||
+      pathnameWithoutLocale === '/auth/sign-up')
   ) {
     return NextResponse.redirect(new URL(`/dashboard`, request.url));
   }
 
   // Protected routes ต้อง login
-  if (
-    !session &&
-    pathnameWithoutLocale.startsWith("/dashboard")
-  ) {
+  if (!session && pathnameWithoutLocale.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL(SIGN_IN_URL, request.url));
   }
 
@@ -37,5 +27,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(th|en)/:path*", "/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: ['/', '/(th|en)/:path*', '/((?!api|_next|_vercel|.*\\..*).*)'],
 };
